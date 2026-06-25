@@ -38,19 +38,33 @@ async function loadDevices() {
   }
 
   // 2. Try the local proxy API or fallback to static devices.json
+  let loaded = false;
   try {
     let res = await fetch(backendUrl + '/api/load');
-    if (!res.ok) {
-      res = await fetch('/devices.json');
-    }
     if (res.ok) {
       devices = await res.json();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
-      return;
+      loaded = true;
     }
-  } catch {}
-  
-  if (!devices) devices = [];
+  } catch (err) {
+    // Network error (e.g. Mixed Content block or server offline)
+  }
+
+  // 3. Fallback to static devices.json on Vercel if API failed
+  if (!loaded) {
+    try {
+      let res = await fetch('/devices.json');
+      if (res.ok) {
+        devices = await res.json();
+        loaded = true;
+      }
+    } catch (err) {}
+  }
+
+  if (loaded && devices) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
+  } else {
+    devices = [];
+  }
 }
 
 function saveDevices() {
