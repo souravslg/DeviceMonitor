@@ -23,9 +23,12 @@ const TYPE_META = {
   other:  { icon: '📦', label: 'Device',  color: '#8b92a8' },
 };
 
+const isVercel = location.hostname.includes('vercel.app');
+const backendUrl = isVercel ? 'http://localhost:5500' : '';
+
 // ===== STORAGE =====
 async function loadDevices() {
-  // 1. Try local storage first (important for Vercel since they can't save to the repo)
+  // 1. Try local storage first
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored) {
     try { 
@@ -34,9 +37,9 @@ async function loadDevices() {
     } catch {}
   }
 
-  // 2. Try the local proxy API or fallback to static devices.json (for Vercel)
+  // 2. Try the local proxy API or fallback to static devices.json
   try {
-    let res = await fetch('/api/load');
+    let res = await fetch(backendUrl + '/api/load');
     if (!res.ok) {
       res = await fetch('/devices.json');
     }
@@ -52,7 +55,7 @@ async function loadDevices() {
 
 function saveDevices() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
-  fetch('/api/save', {
+  fetch(backendUrl + '/api/save', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(devices)
@@ -213,7 +216,8 @@ async function fetchRouterData(device) {
   device.routerData = null;
   const port      = device.port || 80;
   const baseUrl   = `http://${device.ip}:${port}`;
-  const proxyBase = `${location.origin}/proxy?url=`;
+  const isVercel = location.hostname.includes('vercel.app');
+  const proxyBase = isVercel ? 'http://localhost:5500/proxy?url=' : `${location.origin}/proxy?url=`;
   const authB64   = device.username
     ? btoa(`${device.username}:${device.password || ''}`)
     : null;
@@ -447,16 +451,15 @@ async function fetchRouterData(device) {
 
   // ── Generic — ping successful, no stats API found ─────────────────────────
   device.routerData = { fw: 'Generic', wanIp: '--', rxRate: null, txRate: null, rxBytes: 0, txBytes: 0 };
-}
-
 async function fetchUPSData(device) {
   // ALWAYS reset before each refresh — never show stale data
   device.liveData = null;
   device.dataSource = 'unavailable';
 
-  const port     = device.port || 80;
-  const baseUrl  = `http://${device.ip}:${port}`;
-  const proxyBase = `${location.origin}/proxy?url=`;
+  const port      = device.port || 80;
+  const baseUrl   = `http://${device.ip}:${port}`;
+  const isVercel  = location.hostname.includes('vercel.app');
+  const proxyBase = isVercel ? 'http://localhost:5500/proxy?url=' : `${location.origin}/proxy?url=`;
 
   // ── 1. realInfo.cgi — space-separated live data (SNMP Web Pro / generic UPS) ──
   for (const fetchUrl of [
