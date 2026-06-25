@@ -25,15 +25,29 @@ const TYPE_META = {
 
 // ===== STORAGE =====
 async function loadDevices() {
+  // 1. Try local storage first (important for Vercel since they can't save to the repo)
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (stored) {
+    try { 
+      devices = JSON.parse(stored);
+      if (devices.length > 0) return;
+    } catch {}
+  }
+
+  // 2. Try the local proxy API or fallback to static devices.json (for Vercel)
   try {
-    const res = await fetch('/api/load');
+    let res = await fetch('/api/load');
+    if (!res.ok) {
+      res = await fetch('/devices.json');
+    }
     if (res.ok) {
       devices = await res.json();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(devices));
       return;
     }
   } catch {}
-  try { devices = JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { devices = []; }
+  
+  if (!devices) devices = [];
 }
 
 function saveDevices() {
