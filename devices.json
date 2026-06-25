@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dev_lzi1a2b3c4d",
+    "name": "SILIGURI_NOC_UPS_1",
+    "ip": "100.67.75.166",
+    "type": "ups",
+    "port": 80,
+    "desc": "",
+    "addedAt": 1719316599000
+  },
+  {
+    "id": "dev_mzi2b3c4d5e",
+    "name": "SILIGURI_NOC_UPS_2",
+    "ip": "100.65.242.214",
+    "type": "ups",
+    "port": 80,
+    "desc": "",
+    "addedAt": 1719316599001
+  },
+  {
+    "id": "dev_nzi3c4d5e6f",
+    "name": "RAIGANJ BSTN",
+    "ip": "10.14.103.253",
+    "type": "ups",
+    "port": 80,
+    "desc": "",
+    "addedAt": 1719316599002
+  }
+]

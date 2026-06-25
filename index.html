@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Device Monitor — Device Monitoring Dashboard</title>
+  <meta name="description" content="Monitor your UPS units, routers, switches, and network devices from a single dashboard. Add devices by local IP address for real-time status monitoring." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M16.24 7.76a6 6 0 0 1 0 8.49"/>
+            <path d="M7.76 16.24a6 6 0 0 1 0-8.49"/>
+            <path d="M20.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M3.93 19.07a10 10 0 0 1 0-14.14"/>
+          </svg>
+        </div>
+        <span class="brand-name">Device Monitor</span>
+      </div>
+      <div class="header-stats">
+        <div class="stat-pill" id="stat-online">
+          <span class="dot dot-green"></span>
+          <span id="count-online">0</span> Online
+        </div>
+        <div class="stat-pill" id="stat-offline">
+          <span class="dot dot-red"></span>
+          <span id="count-offline">0</span> Offline
+        </div>
+        <div class="stat-pill" id="stat-total">
+          <span class="dot dot-gray"></span>
+          <span id="count-total">0</span> Total
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-icon" id="btn-theme" title="Toggle Theme">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="btn-icon" id="btn-refresh-all" title="Refresh all devices">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+        <button class="btn-primary" id="btn-add-device">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add Device
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all" id="tab-all">All Devices</button>
+        <button class="filter-tab" data-filter="ups" id="tab-ups">UPS</button>
+        <button class="filter-tab" data-filter="router" id="tab-router">Routers</button>
+        <button class="filter-tab" data-filter="switch" id="tab-switch">Switches</button>
+        <button class="filter-tab" data-filter="server" id="tab-server">Servers</button>
+        <button class="filter-tab" data-filter="other" id="tab-other">Other</button>
+      </div>
+      <div class="search-wrap">
+        <svg class="search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+        <input type="text" id="search-input" class="search-input" placeholder="Search by name or IP…" />
+      </div>
+    </div>
+
+    <!-- Device Grid -->
+    <div class="device-grid" id="device-grid">
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/>
+          </svg>
+        </div>
+        <h3>No Devices Added</h3>
+        <p>Start monitoring by adding your first device.<br/>UPS, routers, switches — all in one place.</p>
+        <button class="btn-primary" onclick="document.getElementById('btn-add-device').click()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Add First Device
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Device Modal -->
+  <div class="modal-overlay" id="modal-add" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-title">Add New Device</h2>
+        <button class="btn-icon modal-close" id="btn-modal-close" aria-label="Close modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="input-name">Device Name</label>
+          <input type="text" id="input-name" class="form-input" placeholder="e.g. UPS Main Office" autocomplete="off" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-ip">IP Address</label>
+          <input type="text" id="input-ip" class="form-input mono" placeholder="e.g. 192.168.1.100" autocomplete="off" />
+          <span class="form-hint">Local network IP for status polling</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-type">Device Type</label>
+          <div class="type-selector" id="type-selector">
+            <button class="type-btn active" data-type="ups" id="type-ups">
+              <span class="type-icon">⚡</span> UPS
+            </button>
+            <button class="type-btn" data-type="router" id="type-router">
+              <span class="type-icon">📡</span> Router
+            </button>
+            <button class="type-btn" data-type="switch" id="type-switch">
+              <span class="type-icon">🔀</span> Switch
+            </button>
+            <button class="type-btn" data-type="server" id="type-server">
+              <span class="type-icon">🖥️</span> Server
+            </button>
+            <button class="type-btn" data-type="other" id="type-other">
+              <span class="type-icon">📦</span> Other
+            </button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-port">HTTP Port <span class="optional">(optional)</span></label>
+          <input type="number" id="input-port" class="form-input mono" placeholder="80" min="1" max="65535" />
+        </div>
+        <!-- Router credentials (shown only when Router type selected) -->
+        <div class="form-group cred-section" id="cred-section">
+          <label class="form-label">Router Login <span class="optional">(for live WAN stats)</span></label>
+          <div class="cred-row">
+            <input type="text" id="input-username" class="form-input" placeholder="Username (e.g. admin)" autocomplete="off" />
+            <input type="password" id="input-password" class="form-input" placeholder="Password" autocomplete="new-password" />
+          </div>
+          <div class="router-type-row">
+            <label class="form-label" style="margin-bottom:6px">Router Firmware</label>
+            <div class="type-selector" id="router-fw-selector">
+              <button class="type-btn active" data-fw="auto" id="fw-auto">🔍 Auto-detect</button>
+              <button class="type-btn" data-fw="mikrotik" id="fw-mikrotik">MikroTik</button>
+              <button class="type-btn" data-fw="openwrt" id="fw-openwrt">OpenWrt</button>
+              <button class="type-btn" data-fw="asus" id="fw-asus">ASUS</button>
+              <button class="type-btn" data-fw="tplink" id="fw-tplink">TP-Link</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-desc">Description <span class="optional">(optional)</span></label>
+          <input type="text" id="input-desc" class="form-input" placeholder="e.g. Server room UPS 3kVA" />
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+          <input type="checkbox" id="input-auto-export" checked />
+          <label for="input-auto-export" class="form-label" style="margin-bottom: 0;">Auto-export config backup after adding</label>
+        </div>
+        <p class="modal-note" id="modal-error"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" id="btn-cancel">Cancel</button>
+        <button class="btn-primary" id="btn-save-device">Add Device</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Detail Modal -->
+  <div class="modal-overlay" id="modal-detail" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+    <div class="modal modal-wide">
+      <div class="modal-header">
+        <div class="detail-title-wrap">
+          <div class="detail-device-icon" id="detail-icon"></div>
+          <div>
+            <h2 class="modal-title" id="detail-title">Device Details</h2>
+            <span class="detail-ip mono" id="detail-ip"></span>
+          </div>
+        </div>
+        <button class="btn-icon modal-close" id="btn-detail-close" aria-label="Close detail modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="detail-body">
+        <!-- Populated by JS -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-danger" id="btn-delete-device">Delete Device</button>
+        <button class="btn-ghost" id="btn-detail-cancel">Close</button>
+        <button class="btn-primary" id="btn-detail-refresh">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

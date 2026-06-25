@@ -1,0 +1,263 @@
+<HTML>
+<HEAD>
+<TITLE>Comprehensive View</TITLE>
+<link rel="stylesheet" href="Page1.css">
+<META http-equiv="Content-Type" content="text/html; charset=<BR>">
+</HEAD>
+<META HTTP-EQUIV="REFRESH" CONTENT="15">
+<BODY>
+<BASE TARGET="context">
+<script>
+if (!document.all)                              // Check IE object model
+document.all=document.getElementById;         // Assign NS to the same name
+function newHelp()
+{
+var wh=open("helpCompre.html", "wHelp","toolbar=no,titlebar=no,status=no,menubar=no,scrollbars=yes,resizable=yes");
+wh.focus();
+}
+
+</script>
+<P>
+<CENTER><H3>Comprehensive View</H3></CENTER>
+<P>
+<CENTER>
+
+<TABLE BORDER=2>
+<TR>
+<TD id=td1>UPS Status</TD>
+<TD>
+<TABLE WIDTH=100%> <TD BGCOLOR="#FFFFFF"><FONT COLOR="#00FF00">On-Line</FONT>
+</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+<TR>
+<TD id=td1>Current Utility Line Voltage <I>(Volt)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>225.1</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+
+
+<TR>
+<TD id=td2> Output  Voltage <I>(Volt)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>229.3</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+
+
+
+
+
+
+
+<TR>
+<TD id=td3>Output  Load <I>(%)</I></TD>
+<TD>
+<TABLE WIDTH=100%>
+<TD><div id=upsLoad></div></TD>
+</TABLE>
+</TD>
+</TR>
+<SCRIPT>
+var setL="0";
+var upsL="16";
+function set_load()
+{
+if(setL==1)
+mydata = '<font color=red>'+upsL+'</font>';
+else
+mydata = upsL;
+document.all("upsLoad").innerHTML= mydata;
+}
+
+set_load();
+</SCRIPT>
+
+
+
+
+
+
+
+<TR>
+<TD id=td4>Battery Capacity Remaining <I>(%)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>100</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+<TR>
+<TD id=td4>Current Battery Voltage <I>(Volt)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>
+41.4
+
+</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+<TR>
+<TD id=td5>UPS Temperature <I>(<SUP>o</SUP>C)</I></TD>
+<TD>
+<TABLE WIDTH=100%>
+<TD><div id=upsTemp></div></TD>
+</TABLE>
+</TD>
+</TR>
+<SCRIPT>
+var setT="0";
+var upsT="41.5";
+function set_temp()
+{
+if(setT==1)
+mydata = '<font color=red>'+upsT+'</font>';
+else
+mydata = upsT;
+document.all("upsTemp").innerHTML= mydata;
+}
+
+set_temp();
+</SCRIPT>
+
+
+
+<TR>
+<TD id=td5>Input Frequency <I>(Hertz)<I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>50.0</TD>
+</TABLE>
+</TD>
+</TR>
+
+
+
+
+
+<TR>
+<TD id=td5>EMD Temperature <I>(<SUP>o</SUP>C)<I></TD>
+<TD>
+<TABLE WIDTH=100%>
+<TD><div id=EmdTemp></div></TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td5>EMD Humidity <I>(%)<I></TD>
+<TD>
+<TABLE WIDTH=100%>
+<TD><div id=EmdHumi></div></TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td6>EMD Alarm-1</TD>
+<TD>
+<TABLE WIDTH=100%><TD>Unknown</TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td6>EMD Alarm-2</TD>
+<TD>
+<TABLE WIDTH=100%><TD>Unknown</TD>
+</TABLE>
+</TD>
+</TR>
+
+<SCRIPT>
+var lowT=0, highT=0, lowH=0, highH=0;
+var emdT="<BR>", emdH="<BR>";
+function set_value()
+{
+if(lowT==1 || highT==1)
+mydata = '<font color=red>'+emdT+'</font>';
+else
+mydata = emdT;
+document.all("EmdTemp").innerHTML= mydata;
+if(lowH==1 || highH==1)
+mydata = '<font color=red>'+emdH+'</font>';
+else
+mydata = emdH;
+document.all("EmdHumi").innerHTML= mydata;
+}
+
+set_value();
+</SCRIPT>
+
+
+<TR>
+<TD id=td7>UPS Next Off Time <I>(hh:mm dd/mm/yyyy)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD><BR></TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td7>UPS Next On Time <I>(hh:mm dd/mm/yyyy)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD><BR></TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td8><FONT COLOR="#FFFFFF">USHA System Date <I>(dd/mm/yyyy)</I></FONT></TD>              <TD>
+<TABLE WIDTH=100%><TD>25/06/2026</TD>
+</TABLE>
+</TD>
+</TR>
+
+<TR>
+<TD id=td8>USHA System Time <I>(hh:mm:ss)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>16:06:54</TD>
+</TABLE>
+</TD>
+</TR>
+<TR>
+<TD id=td9>USHA Up Time <I>(days hh:mm:ss)</I></TD>
+<TD>
+<TABLE WIDTH=100%><TD>20day 08:12:17</TD>
+</TABLE>
+</TD>
+</TR>
+</TABLE>
+
+
+<P>
+<HR>
+<P>
+<TABLE>
+<TR>
+<TD>
+<A HREF="javascript:history.go(-1)";  return true>
+<IMG ALT="Back" SRC="./GIF/Back.gif" BORDER=0></A>
+</TD>
+<TD>
+<A href="blank.html" onClick='newHelp(); return false'>
+<IMG ALT="Help" SRC="./GIF/Help.gif" BORDER=0></A>
+</TD>
+</TR>
+</TABLE>
+</CENTER>
+</BODY>
+
+</HTML>
